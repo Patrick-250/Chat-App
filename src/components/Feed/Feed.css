@@ -1,0 +1,7 @@
+/* src/components/Feed/Feed.css */
+.feed {
+  flex: 1;
+  padding: 20px;
+  margin-left: 20px; /* Adjust based on sidebar width */
+  box-sizing: border-box;
+}

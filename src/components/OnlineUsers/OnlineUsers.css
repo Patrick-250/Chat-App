@@ -1,0 +1,29 @@
+/* src/components/OnlineUsers/OnlineUsers.css */
+.online-users {
+  margin-bottom: 20px;
+}
+
+.online-users h2 {
+  color: white;
+}
+
+.online-users ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.online-users li {
+  margin-bottom: 5px;
+}
+
+.online-users a {
+  text-decoration: none;
+  font-size: 23px;
+}
+
+.online-users a:hover {
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  padding: 10px, 20px;
+}

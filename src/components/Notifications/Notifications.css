@@ -1,0 +1,16 @@
+/* frontend/src/components/Notifications/Notifications.css */
+.notifications {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 5px;
+}
+
+.notifications ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifications li {
+  margin-bottom: 10px;
+}
