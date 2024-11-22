@@ -1,13 +1,22 @@
-// src/components/ChatHeader/ChatHeader.jsx
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { Tooltip } from "@mui/material";
 import "./ChatHeader.css";
 
 const ChatHeader = ({ user, isOnline, lastSeen }) => {
   const getLastSeenText = (lastSeen) => {
+    if (!lastSeen) {
+      return "unknown";
+    }
+
     const now = new Date();
     const lastSeenDate = new Date(lastSeen);
+
+    if (isNaN(lastSeenDate.getTime())) {
+      return "unknown";
+    }
+
     const diffInMinutes = Math.floor((now - lastSeenDate) / 60000);
 
     if (diffInMinutes < 1) {
@@ -24,14 +33,18 @@ const ChatHeader = ({ user, isOnline, lastSeen }) => {
   return (
     <div className="chat-header">
       <div className="chat-header-info">
-        <h3 style={{ color: "white", marginLeft: "10px" }}>{user}</h3>
+        <h3 style={{ marginLeft: "10px", color: "white" }}>{user}</h3>
         <p className={`chat-header-status ${isOnline ? "online" : ""}`}>
           {isOnline ? "Online" : `Last seen ${getLastSeenText(lastSeen)}`}
         </p>
       </div>
       <div className="chat-header-icons">
-        <FontAwesomeIcon icon={faPhone} className="chat-header-icon" />
-        <FontAwesomeIcon icon={faVideo} className="chat-header-icon" />
+        <Tooltip title="Audio Call">
+          <FontAwesomeIcon icon={faPhone} className="chat-header-icon" />
+        </Tooltip>
+        <Tooltip title="Video Call">
+          <FontAwesomeIcon icon={faVideo} className="chat-header-icon" />
+        </Tooltip>
       </div>
     </div>
   );

@@ -1,97 +1,72 @@
-/* src/components/Chat/Chat.css */
 .chat {
   display: flex;
   flex-direction: column;
-  background-color: black;
-  color: white;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 5px;
-  height: 100%;
-}
-
-.chat-users {
-  margin-bottom: 20px;
-}
-
-.chat-users ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.chat-users li {
-  cursor: pointer;
-  padding: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  color: white;
-}
-
-.chat-users li.selected {
-  background-color: #007bff;
-  color: white;
-}
-
-.unresponded-count {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  margin-left: 5px;
-}
-
-.last-message {
-  font-size: 12px;
-  color: #ccc;
+  height: 100vh;
 }
 
 .chat-messages {
   flex: 1;
-  max-height: calc(100vh - 120px); /* Adjust based on header and input height */
   overflow-y: auto;
-  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .chat-message {
   margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
+  cursor: pointer;
 }
 
-.chat-message.sent {
-  background-color: #333;
+.chat-message.sent .message-content {
+  background-color: #dcf8c6;
   align-self: flex-end;
 }
 
-.chat-message.received {
-  background-color: #444;
+.chat-message.received .message-content {
+  background-color: #fff;
   align-self: flex-start;
+}
+
+.message-content {
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.message-text {
+  margin-bottom: 5px;
+}
+
+.message-timestamp {
+  font-size: 0.8em;
+  color: #888;
 }
 
 .chat-input {
   display: flex;
+  align-items: center;
   padding: 10px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #ddd;
 }
 
 .chat-input input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #222;
-  color: white;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-right: 10px;
 }
 
-.chat-input button {
-  padding: 10px;
+.chat-icon-button {
+  background: none;
   border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  margin-left: 10px;
   cursor: pointer;
+  margin-right: 10px;
+  font-size: 1.2em;
+  color: #007bff;
+}
+.chat-icon-button:hover {
+  color: #0056b3;
+}
+
+.chat-icon-button:last-child {
+  margin-right: 0;
 }

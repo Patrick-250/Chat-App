@@ -1,6 +1,6 @@
 /* src/components/OnlineUsers/OnlineUsers.css */
 .online-users {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .online-users h2 {
@@ -19,11 +19,21 @@
 .online-users a {
   text-decoration: none;
   font-size: 23px;
+  color: #547aa5;
+  display: flex;
+  align-items: center;
 }
 
 .online-users a:hover {
   color: white;
-  background-color: black;
-  border-radius: 10px;
-  padding: 10px, 20px;
+}
+
+.online-users a:hover .user-name {
+  color: green;
+}
+
+.online-icon {
+  margin-right: 8px;
+  font-size: 12px;
+  color: limegreen;
 }

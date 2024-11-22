@@ -1,7 +1,8 @@
-// src/components/Chat/Chat.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import { FaPaperPlane, FaImage, FaCamera } from "react-icons/fa";
+import { Tooltip } from "@mui/material";
 import "./Chat.css";
 import ChatHeader from "../ChatHeader/ChatHeader";
 
@@ -10,32 +11,10 @@ const socket = io("http://localhost:5000"); // Adjust the URL as needed
 const Chat = () => {
   const { user } = useParams();
   const navigate = useNavigate();
-  const [messages, setMessages] = useState([
-    { sender: "Friend1", text: "Hello!", receiver: "You" },
-    { sender: "You", text: "Hi!", receiver: "Friend1" },
-    { sender: "Friend2", text: "How are you?", receiver: "You" },
-    { sender: "You", text: "I am fine, thanks!", receiver: "Friend2" },
-    { sender: "Friend3", text: "Good morning!", receiver: "You" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [unrespondedCount, setUnrespondedCount] = useState({
-    Friend1: 1,
-    Friend2: 1,
-    Friend3: 1,
-  });
-
-  // Mock data for online status and last seen information
-  const userStatus = {
-    Friend1: { isOnline: true, lastSeen: new Date().toISOString() },
-    Friend2: {
-      isOnline: false,
-      lastSeen: new Date(Date.now() - 3600000).toISOString(),
-    }, // 1 hour ago
-    Friend3: {
-      isOnline: false,
-      lastSeen: new Date(Date.now() - 86400000).toISOString(),
-    }, // 1 day ago
-  };
+  const [unrespondedCount, setUnrespondedCount] = useState({});
+  const [userStatus, setUserStatus] = useState({}); // Define userStatus
 
   useEffect(() => {
     console.log("Component mounted");
@@ -59,11 +38,14 @@ const Chat = () => {
   const handleSendMessage = () => {
     if (input.trim() && user) {
       console.log("Sending message:", input);
-      socket.emit("message", { text: input, sender: "You", receiver: user });
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: input, sender: "You", receiver: user },
-      ]);
+      const message = {
+        text: input,
+        sender: "You",
+        receiver: user,
+        timestamp: new Date(),
+      };
+      socket.emit("message", message);
+      setMessages((prevMessages) => [...prevMessages, message]);
       setInput("");
       setUnrespondedCount((prevCount) => ({
         ...prevCount,
@@ -86,6 +68,16 @@ const Chat = () => {
   };
 
   const uniqueSenders = [...new Set(messages.map((message) => message.sender))];
+
+  const handleSelectImage = () => {
+    // Logic to select an image from the gallery
+    console.log("Select image from gallery");
+  };
+
+  const handleTakePicture = () => {
+    // Logic to take a picture
+    console.log("Take a picture");
+  };
 
   return (
     <div className="chat">
@@ -110,7 +102,12 @@ const Chat = () => {
                     message.sender === "You" ? "sent" : "received"
                   }`}
                 >
-                  {message.text}
+                  <div className="message-content">
+                    <div className="message-text">{message.text}</div>
+                    <div className="message-timestamp">
+                      {new Date(message.timestamp).toLocaleTimeString()}
+                    </div>
+                  </div>
                 </div>
               ))}
           </div>
@@ -124,7 +121,21 @@ const Chat = () => {
               }}
               placeholder="Type a message..."
             />
-            <button onClick={handleSendMessage}>Send</button>
+            <Tooltip title="Select Image">
+              <button onClick={handleSelectImage} className="chat-icon-button">
+                <FaImage />
+              </button>
+            </Tooltip>
+            <Tooltip title="Take Picture">
+              <button onClick={handleTakePicture} className="chat-icon-button">
+                <FaCamera />
+              </button>
+            </Tooltip>
+            <Tooltip title="Send Message">
+              <button onClick={handleSendMessage} className="chat-icon-button">
+                <FaPaperPlane />
+              </button>
+            </Tooltip>
           </div>
         </>
       ) : (

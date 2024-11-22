@@ -1,22 +1,43 @@
-// server.js
 import express from "express";
-import bodyParser from "body-parser";
+import http from "http";
 import cors from "cors";
-import db from "./db.js";
-import userRoutes from "./routes/userRoutes.js";
-import messageRoutes from "./routes/messageRoutes.js";
+import { Server as SocketIOServer } from "socket.io";
+import chatRoutes from "./routes/chatRoutes.js";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: "http://localhost:5173", // Update this to match your frontend URL
+    methods: ["GET", "POST"],
+  },
+});
 
-// Middleware
+// Enable CORS
 app.use(cors());
-app.use(bodyParser.json());
 
-// Routes
-app.use("/api/users", userRoutes);
-app.use("/api/messages", messageRoutes);
+app.use(express.json());
+app.use("/chat", chatRoutes);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+io.on("connection", (socket) => {
+  console.log("New client connected");
+
+  socket.on("message", (message) => {
+    console.log(`Received message: ${message}`);
+    // Broadcast the message to all clients
+    io.emit("message", message);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
+
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
