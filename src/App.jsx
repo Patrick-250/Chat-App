@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -13,23 +12,29 @@ import Feed from "./components/Feed/Feed";
 import Chat from "./components/Chat/Chat";
 import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 const App = () => {
   const location = useLocation();
-  const showHeader = location.pathname !== "/chat";
+  const showHeaderAndSidebar = !["/login", "/register"].includes(
+    location.pathname.toLowerCase()
+  );
 
   return (
     <div className="App">
-      {showHeader && <Header />}
+      {showHeaderAndSidebar && <Header />}
       <div className="main-content">
-        <Sidebar />
+        {showHeaderAndSidebar && <Sidebar />}
         <div className="content">
           <Routes>
             <Route path="/" element={<Feed />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/notifications" element={<Notifications />} />
-            <Route path="/chat" element={<Chat />} /> {/* Add this line */}
+            <Route path="/chat" element={<Chat />} />
             <Route path="/chat/:user" element={<Chat />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </div>

@@ -1,15 +1,22 @@
 // models/Message.js
-import db from "../db.js";
 
-export const createMessage = async (senderId, content) => {
-  const [result] = await db.query(
-    "INSERT INTO messages (sender_id, content) VALUES (?, ?)",
-    [senderId, content]
-  );
-  return result.insertId;
+// Mock message data
+const messages = [];
+
+// Function to create a message
+export const createMessage = (sender, receiver, text) => {
+  const newMessage = {
+    id: messages.length + 1,
+    sender,
+    receiver,
+    text,
+    timestamp: new Date(),
+  };
+  messages.push(newMessage);
+  return newMessage.id;
 };
 
-export const getAllMessages = async () => {
-  const [rows] = await db.query("SELECT * FROM messages");
-  return rows;
+// Function to get all messages
+export const getAllMessages = () => {
+  return messages;
 };

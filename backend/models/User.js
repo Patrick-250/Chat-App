@@ -1,17 +1,21 @@
 // models/User.js
-import db from "../db.js";
 
-export const createUser = async (username, password) => {
-  const [result] = await db.query(
-    "INSERT INTO users (username, password) VALUES (?, ?)",
-    [username, password]
-  );
-  return result.insertId;
+// Mock user data
+const users = [];
+
+// Function to create a user
+export const createUser = (username, password) => {
+  const newUser = { id: users.length + 1, username, password };
+  users.push(newUser);
+  return newUser.id;
 };
 
-export const getUserByUsername = async (username) => {
-  const [rows] = await db.query("SELECT * FROM users WHERE username = ?", [
-    username,
-  ]);
-  return rows[0];
+// Function to get a user by username
+export const getUserByUsername = (username) => {
+  return users.find((user) => user.username === username);
+};
+
+// Function to get a user by ID
+export const getUserById = (id) => {
+  return users.find((user) => user.id === id);
 };

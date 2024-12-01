@@ -21,6 +21,7 @@ import {
   PhotoLibrary,
   People,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import "./Profile.css";
 
 const Profile = () => {
@@ -36,6 +37,8 @@ const Profile = () => {
     location: "Location",
     maritalStatus: "Single",
   });
+
+  const navigate = useNavigate();
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -79,7 +82,8 @@ const Profile = () => {
   };
 
   const handleSignOut = () => {
-    console.log("Sign Out clicked");
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   const handlePosts = () => {
